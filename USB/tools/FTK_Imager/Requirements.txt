@@ -1,1 +1,0 @@
-Download Exterro FTK Imager and store the executable file as "ftkimager.exe" in this folder.
