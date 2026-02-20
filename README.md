@@ -1,74 +1,95 @@
-# 🛡️ CyFi: Forensic First Aid
+# CyFi- Forensic First Aid: Live-to-Disk Pipeline
 
-### Securing the "Golden Hour" with Automated Live Response & Blockchain Integrity. CyFi is a next-generation digital forensics orchestration platform. It solves the "Golden Hour" crisis by automating the capture of volatile (RAM) and stable (Disk) evidence via a zero-dependency Go Agent and anchoring the evidence's cryptographic fingerprints onto a Blockchain Ledger to ensure an unbreakable chain of custody.
+## Overview
+
+*Forensic First Aid* (by Team *CyFi) is a unified, "one-click" USB workflow designed to solve the "Golden Hour" crisis in digital forensics. When a security breach occurs, critical evidence in RAM is often lost due to reboots or anti-forensic wipers. This project automates the acquisition of volatile and non-volatile data, securing every artifact with a **SHA-256 digital fingerprint* and an *Immutable Audit Log* anchored to a blockchain.
+
+## The Problem: The "Golden Hour" Crisis
+
+* *The Volatility Gap:* RAM, encryption keys, and live malware traces are lost if a system is powered down before capture.
+
+
+* *Speed-Soundness Trade-off:* Manual forensic setups are slow, giving "anti-forensic" wipers time to destroy evidence.
+
+
+* *Chain of Custody Fragility:* Standard logs are easily manipulated, leading to trust deficits in judicial reviews.
+
+
+
+## Key Features
+
+* *Near-Zero Footprint:* Built as a *Go-based static binary* to execute without heavy interpreters or dependencies on the suspect host.
+
+
+* *Blockchain-Anchored Integrity:* Uses *Solidity* smart contracts to create a decentralized, immutable record of evidence timestamps.
+
+
+* *Automated 6-Stage Pipeline:* Denies malware the "window of opportunity" by rapidly bridging the gap between RAM and disk acquisition.
+
+
 
 ---
 
-## Key Features  
-**⚡ One-Click Acquisition:** A standalone, headless Go-based agent that performs RAM dumps and disk imaging silently.  
-**📂 Forensic Core:** Orchestrates industry-standard tools like WinPmem (RAM) and FTK Imager CLI (Disk .E01).  
-**⛓️ Immutable Chain of Custody:** Automatically anchors SHA-256 hashes of captured evidence to a private Ethereum-compatible blockchain (Hardhat/Polygon).  
-**🔍 Integrity Verification:** A centralized dashboard to ingest USB forensic logs and verify evidence authenticity against the ledger.  
-**📉 Zero-Footprint Design:** Minimized memory pollution during capture to preserve the integrity of the suspect machine.  
+## 6-Stage Automated Pipeline
 
-## 🛠️ Tech Stack
+1. *RAM State:* Freezes volatile processes and active connections into a "live snapshot".
 
-| Component | Technology |
-| :--- | :--- |
-| **Forensic Agent** | Golang (Compiled for Windows) |
-| **Dashboard** | Streamlit (Python) |
-| **Blockchain** | Solidity, Hardhat, Web3.py |
-| **Data Integrity** | SHA-256 Hashing |
-| **Binaries** | WinPmem, FTK Imager CLI |
+
+2. *Registry Hive:* Extracts the system’s "Binary DNA" (HKLM) to document hardware, users, and persistent settings.
+
+
+3. *Network State:* Logs active IP connections to identify unauthorized remote access or data exfiltration.
+
+
+4. *DNS Cache:* Recovers visited domain history, bypassing "cleared" browser histories.
+
+
+5. *User Intent:* Captures PowerShell command history—the "Smoking Gun" for manual hacking.
+
+
+6. *Security Logs:* Exports the Windows Event Log to create a chronological timeline of logins and privilege changes.
+
+
 
 ---
 
-## 📂 Project Structure
-```text
+## System Architecture
 
-├── agent/
-│   ├── cyfi_agent.go       # Source code for the USB agent
-│   └── tools/              # Place winpmem.exe and ftkimager.exe here
-├── blockchain/
-│   ├── contracts/          # Solidity Smart Contracts
-│   └── artifacts/          # Compiled contract JSONs
-├── dashboard/
-│   └── app.py              # Streamlit Forensic Command Center
-├── README.md
-└── requirements.txt        # Python dependencies
-```
+The system consists of two primary environments:
 
-     
-## ⚙️ Setup & Installation  
-1. The Blockchain (Hardhat)
-   Ensure you have Node.js installed.
-   ```text
-   npm install --save-dev hardhat
-   npx hardhat node
-   ```
-3. The Dashboard (Python)
-   ```text
-   pip install streamlit web3 psutil pandas
-   streamlit run dashboard/app.py
-   ```
-4. The USB Agent (Go)
-   Compile the Go agent to run without a terminal window
-   ```text
-   go build -ldflags "-H=windowsgui" agent/cyfi_agent.go
-   ```
+1. *Forensic Host (Suspect PC):* Runs the cyfi_agent.exe (Go Agent) from a USB drive to write evidence.raw and audit_log.txt.
 
-## 🖥️ Workflow  
-**1. Capture:** Plug the CyFi USB into the suspect PC and run cyfi_agent.exe as Administrator.  
-**2. Wait:** Upon completion, a native Windows alert will confirm the evidence is saved.  
-**3. Ingest:** Plug the USB into the Forensic Workstation. The Streamlit dashboard will auto-detect the audit_log.txt.  
-**4. Anchor:** Click "Initialize Vault" and then "Anchor to Ledger" to seal the hash on the blockchain.  
-**5. Verify:** Use the Verification Engine to prove the evidence hasn't been tampered with since the second of capture.
 
-## 🔮 Future Scope  
-**IPFS Integration:** Decentralized storage for actual forensic images.  
-**AI Triage:** Automatic scanning of RAM dumps for malware patterns.  
-**Network Triage:** Remote heuristic monitoring to trigger auto-capture on suspicious nodes.  
-  
-**👥 Team CyFi**  
-**Institution: Indira Gandhi Delhi Technical University for Women (IGDTUW)**  
-**Track: Digital Forensics (WIEGNITE 3.0)**
+2. *Forensic Workstation:* A Streamlit-based dashboard used for log ingestion, SHA-256 verification, and blockchain anchoring.
+
+
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| *User Interface* | Streamlit (Python) | No-code investigator dashboard.|
+| *Logic/Brain* | Go (Golang) | Lightweight, portable execution with zero dependencies.|
+| *Integrity Layer* | Solidity | Immutable, decentralized Chain of Custody record.|
+| *Environment* | Hardhat / Ganache | Local blockchain node for anchoring evidence.|
+| *Communication* | JSON | Linking local tools to the blockchain vault.|
+
+---
+
+## Future Scope
+
+* *Multi-Cloud Storage (IPFS):* Moving from local file storage to a fully decentralized InterPlanetary File System.
+
+
+* *AI-Powered Analysis:* An AI/ML layer to automatically scan massive images for malware signatures or hidden partitions.
+
+
+* *Insurance Integration:* Automating "insurance-ready" reports that meet specific evidentiary criteria for claim payouts.
+
+
+
+## Team CyFi
+
+Developed at *Indira Gandhi Delhi Technical University for Women (IGDTUW)* for *WIEGNITE 3.0*.
