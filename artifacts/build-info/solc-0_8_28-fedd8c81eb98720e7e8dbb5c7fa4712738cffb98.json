@@ -1,0 +1,35 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-fedd8c81eb98720e7e8dbb5c7fa4712738cffb98",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/CyFiVault.sol": "project/contracts/CyFiVault.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/CyFiVault.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract CyFiVault {\r\n    // Mapping from file hash to the timestamp it was recorded\r\n    mapping(string => uint256) private evidenceRegistry;\r\n\r\n    event EvidenceAnchored(string fileHash, uint256 timestamp);\r\n\r\n    // Function to store the hash on the blockchain\r\n    function anchorEvidence(string memory _fileHash) public {\r\n        // Ensure we don't overwrite an existing record to maintain integrity\r\n        require(evidenceRegistry[_fileHash] == 0, \"Evidence already exists on ledger.\");\r\n        \r\n        evidenceRegistry[_fileHash] = block.timestamp;\r\n        emit EvidenceAnchored(_fileHash, block.timestamp);\r\n    }\r\n\r\n    // Function to verify if a hash exists and return its timestamp\r\n    function verifyEvidence(string memory _fileHash) public view returns (uint256) {\r\n        return evidenceRegistry[_fileHash];\r\n    }\r\n}"
+      }
+    }
+  }
+}
